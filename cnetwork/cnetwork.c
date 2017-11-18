@@ -97,13 +97,18 @@ int cnw_unix_server(const char *path, struct sockaddr_un *unixaddr,
 	return fd;
 }
 
-int cnw_tcp_client(const char *host, int port, struct sockaddr_in *inetaddr) {
-	int fd;
-	struct hostent *ent;
+int cnw_tcp_client_domain(const char *host, int port,
+		struct sockaddr_in *inetaddr) {
+	int fd = 0;
+	struct hostent *ent = NULL;
+	ent = gethostbyname(host);
+	if (NULL == ent) {
+		return -__LINE__;
+	}
 
-	if (((fd = socket(PF_INET, SOCK_STREAM, 0)) < 0)
-			|| ((ent = gethostbyname(host)) == NULL)) {
-		return -1;
+	fd = socket(PF_INET, SOCK_STREAM, 0);
+	if (fd < 0) {
+		return -__LINE__;
 	}
 
 	inetaddr->sin_family = AF_INET;
@@ -112,7 +117,7 @@ int cnw_tcp_client(const char *host, int port, struct sockaddr_in *inetaddr) {
 	if (connect(fd, (struct sockaddr *) inetaddr, sizeof(struct sockaddr_in))
 			< 0) {
 		close(fd);
-		return -1;
+		return -__LINE__;
 	}
 	return fd;
 }

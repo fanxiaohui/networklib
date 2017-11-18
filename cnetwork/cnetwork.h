@@ -57,7 +57,8 @@ int cnw_unix_server(const char *path, struct sockaddr_un *unixaddr,
  * @param inetaddr
  * @return filedes on socket on success, -1 on error and errno is set appropriately
  */
-int cnw_tcp_client(const char *host, int port, struct sockaddr_in *inetaddr);
+int cnw_tcp_client_domain(const char *host, int port,
+		struct sockaddr_in *inetaddr);
 
 /**
  * @brief Bind socket in TCP domain.
