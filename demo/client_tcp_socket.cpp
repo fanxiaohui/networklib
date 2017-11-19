@@ -39,8 +39,6 @@ int main() {
 	struct hostent *ent;
 	const char* domain = "github.tiankonguse.com";
 	int fd = 0;
-	int ret = 0;
-	struct sockaddr_in inetaddr;
 	char str[32];
 
 	ent = gethostbyname(domain);
