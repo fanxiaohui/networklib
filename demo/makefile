@@ -1,5 +1,5 @@
 
-MYFLAGS = -std=gnu++0x 
+MYFLAGS = -std=c++1z 
 MYFLAGS += -Wall 
 MYFLAGS += -pipe 
 MYFLAGS += -g  -ggdb

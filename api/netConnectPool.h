@@ -9,6 +9,7 @@
 #define NETCONNECTPOOL_H_
 
 #include <map>
+#include <string>
 #include "netConnect.h"
 
 class NetConnectPool {

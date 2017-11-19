@@ -26,7 +26,7 @@
 #include<stack>
 #include<algorithm>
 #include<functional>
-#include<stdarg.h>
+#include "httpClient.h"
 using namespace std;
 #ifdef __int64
 typedef __int64 LL;
@@ -36,29 +36,13 @@ typedef long long LL;
 
 int main() {
 	//get host
-	struct hostent *ent;
-	const char* domain = "github.tiankonguse.com";
-	int fd = 0;
-	char str[32];
+	
+	STHttpReq req;
+	STHttpRsp rsp;
 
-	ent = gethostbyname(domain);
-	if (ent == NULL) {
-		printf("gethostbyname error. \n");
-		return 0;
-	}
-	printf(" first address: %s\n", inet_ntop(ent->h_addrtype, ent->h_addr, str, sizeof(str)));
+	HttpClientApi httpClientApi;
+	httpClientApi.setRoute("github.tiankonguse.com");
+	
 
-	fd = socket(PF_INET, SOCK_STREAM, 0);
-	if (fd < 0) {
-		printf("socket error. fd = %d\n", fd);
-		return 0;
-	}
-//	ret = connect(fd, (struct sockaddr *) inetaddr, sizeof(struct sockaddr_in));
-//	if (ret < 0) {
-//		printf("connect error\n");
-//		return 0;
-//	}
-
-	printf("next\n");
 	return 0;
 }

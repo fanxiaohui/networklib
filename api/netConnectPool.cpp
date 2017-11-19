@@ -22,6 +22,9 @@ NetConnectPool::~NetConnectPool() {
 	pthread_mutex_destroy(&m_mutex);
 }
 
+/*
+ * 这里不会有内存泄露，因为每个key都有线程ip这个信息，同一个线程内只支持同步操作。
+ */
 NetConnect* NetConnectPool::getConnection(const std::string &ip, int port,
 		NetProtoType proto, int timeout) {
 	std::string key = getKey(ip, port, proto);
@@ -38,7 +41,7 @@ NetConnect* NetConnectPool::getConnection(const std::string &ip, int port,
 	}
 
 	l.lock(&m_mutex);
-	m_vconnmap.insert(std::make_pair<std::string, NetConnect*>(key, vconn));
+	m_vconnmap.insert(std::make_pair(key, vconn));
 	l.unlock();
 
 	return vconn;
