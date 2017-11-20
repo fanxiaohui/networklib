@@ -1,5 +1,5 @@
 
-MYFLAGS = -std=c++1z 
+MYFLAGS = -std=c++11
 MYFLAGS += -Wall 
 MYFLAGS += -pipe 
 MYFLAGS += -g  -ggdb

@@ -8,6 +8,12 @@
 #ifndef SEQHELP_H_
 #define SEQHELP_H_
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>   /* for close */
+#include <sys/time.h> /* for gettimeofday */
+
 class SeqGenerator {
 public:
 	SeqGenerator() {

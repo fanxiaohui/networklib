@@ -36,7 +36,7 @@ enum NetActionType {
  * 小于0：包非法，停止收包
  *
  */
-typedef int (*PacketCheckFunc)(void *ctx, char *data, int len);
+typedef int (*PacketCheckFunc)(void *ctx, const char *data, int len);
 
 class NetConnect {
 public:

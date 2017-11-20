@@ -28,7 +28,7 @@ enum RouterType {
  */
 struct RouterInfo {
 	std::string ip;
-	int port;
+	unsigned short port;
 	int weight;
 };
 
@@ -51,29 +51,34 @@ public:
 	/*
 	 * 默认算法随机得到一个ip
 	 */
-	int get(std::string &ip, int &port);
+	int get(std::string &ip, unsigned short &port);
 
 	/*
 	 * 分布式路由，同一个key进来路由到同一个ip
 	 */
-	int getByKey(std::string &ip, int &port, int key);
+	int getByKey(std::string &ip, unsigned short &port, int key);
 
 	/*
 	 * 分布式路由，同一个key进来路由到同一个ip
 	 */
-	int getByKey(std::string &ip, int &port, std::string key);
+	int getByKey(std::string &ip, unsigned short &port, std::string key);
 
 	/*
 	 * 根据域名得到ip
 	 */
-	int getFromDomain(std::string &ip, int &port);
-	int getFromIP(std::string &ip, int &port);
+	int getFromDomain(std::string &ip, unsigned short &port);
+	int getFromIP(std::string &ip, unsigned short &port);
 
 	/*
 	 * 给业务一个主动上报的方式
 	 * 因为业务是最了解对方是否可用的。
 	 */
 	void report(const std::string &ip, unsigned short port, int result, int cost);
+
+	const char* error() {
+		return m_err;
+	}
+
 private:
 	int timeout; //单位毫秒
 	std::vector<RouterInfo> routeList;

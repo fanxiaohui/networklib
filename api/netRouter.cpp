@@ -29,7 +29,7 @@ void NetRouter::add(const RouterInfo& routerInfo) {
 	this->routeList.push_back(routerInfo);
 }
 
-int NetRouter::get(std::string &ip, int &port) {
+int NetRouter::get(std::string &ip, unsigned short &port) {
 	if (domain.length() > 0) {
 		return getFromDomain(ip, port);
 	} else {
@@ -40,7 +40,7 @@ int NetRouter::get(std::string &ip, int &port) {
 /*
  *  由于域名很慢， 后续可以对域名拉到的ip进行缓存
  */
-int NetRouter::getFromDomain(std::string &ip, int &port) {
+int NetRouter::getFromDomain(std::string &ip, unsigned short &port) {
 
 	struct hostent *ent = NULL;
 	static char str[32];
@@ -53,7 +53,7 @@ int NetRouter::getFromDomain(std::string &ip, int &port) {
 	return 0;
 }
 
-int NetRouter::getFromIP(std::string &ip, int &port) {
+int NetRouter::getFromIP(std::string &ip, unsigned short &port) {
 	if (routeList.size() == 0) {
 		snprintf(m_err, sizeof(m_err), "empty routeList!");
 		return __LINE__;
@@ -72,14 +72,14 @@ int NetRouter::getFromIP(std::string &ip, int &port) {
 /*
  * 分布式路由，同一个key进来路由到同一个ip
  */
-int getByKey(std::string &ip, int &port, int key) {
+int getByKey(std::string &ip, unsigned short &port, int key) {
 	return 0;
 }
 
 /*
  * 分布式路由，同一个key进来路由到同一个ip
  */
-int getByKey(std::string &ip, int &port, std::string key) {
+int getByKey(std::string &ip, unsigned short &port, std::string key) {
 	return 0;
 }
 

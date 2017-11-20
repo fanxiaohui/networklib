@@ -34,15 +34,64 @@ typedef __int64 LL;
 typedef long long LL;
 #endif
 
-int main() {
+void syncHttpTest(int times) {
+
 	//get host
-	
+	//http://github.tiankonguse.com/data/test_2.json
+	//http://github.tiankonguse.com/data/test_1.json
+
 	STHttpReq req;
 	STHttpRsp rsp;
+	int iRet = 0;
 
 	HttpClientApi httpClientApi;
-	httpClientApi.setRoute("github.tiankonguse.com");
-	
+	std::string domain = "github.tiankonguse.com";
+	httpClientApi.setRoute(domain);
+	req.eType = "GET";
+	req.strHost = domain;
 
+
+	while (times-- >= 0) {
+		req.strUrl = "/data/test_1.json";
+
+		iRet = httpClientApi.httpRpc(req, rsp);
+		if (iRet == 0) {
+			if (times < 0) {
+				printf("%s\n", req.strUrl.c_str());
+				printf("%s\n", rsp.strContent.c_str());
+			}
+		}
+		else {
+			printf("iRet=%d\n", iRet);
+			req.output();
+			rsp.output();
+		}
+
+		req.strUrl = "/data/test_2.json";
+		iRet = httpClientApi.httpRpc(req, rsp);
+		if (iRet == 0) {
+			if (times < 0) {
+				printf("%s\n", req.strUrl.c_str());
+				printf("%s\n", rsp.strContent.c_str());
+			}
+		}
+		else {
+			printf("iRet=%d\n", iRet);
+			req.output();
+			rsp.output();
+		}
+	}
+
+}
+
+
+int main() {
+
+	TimeHelp timehelp;
+	int times = 20;
+	timehelp.start();
+	syncHttpTest(times);
+	timehelp.end();
+	printf("times=%d cost %lldus\n", times, timehelp.cost());
 	return 0;
 }
