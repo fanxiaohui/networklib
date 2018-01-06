@@ -13,3 +13,8 @@ Debug/
 .project
 .cproject
 .settings/
+networklib.sln
+networklib.vcxproj
+networklib.vcxproj.filters
+networklib.vcxproj.user
+x64/Debug

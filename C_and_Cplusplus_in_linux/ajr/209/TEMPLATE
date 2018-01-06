@@ -1,0 +1,20 @@
+.TH NAME CHAPTER "dd month yyyy"
+.SH NAME
+name(s) \- what it does
+.SH SYNOPSIS
+.SH DESCRIPTION
+The first sentence should summarize what it does.
+The rest of the first paragraph should elaborate.
+.PP
+Discuss whatever else needs discussing in further paragraphs.
+.SH FILES
+.SH SEE ALSO
+.SH DIAGNOSTICS
+This section appears ONLY if there is something unobvious
+and important about the diagnostics or the general behavior
+in case of error.
+.SH HISTORY
+Origin (if non-Bell), history of local work and changes.
+.SH BUGS
+Including things which are less than perfect but not worth
+fixing.

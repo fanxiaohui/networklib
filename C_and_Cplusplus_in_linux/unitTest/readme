@@ -1,0 +1,17 @@
+
+1)编写单元测试函数(有必要的话要写suite的init/cleanup函数)。Write functions for tests (and suite init/cleanup if necessary).
+
+2)调用函数CU_initialize_registry()初始化测试注册单元(Test Registry)。 Initialize the test registry - CU_initialize_registry()
+
+3)调用函数CU_add_suite() 将测试包(suite)添加到测试注册单元(Test Registry)中。Add suites to the test registry - CU_add_suite()
+
+4)调用函数CU_add_test()将测试用例添加到测试包(suite)中。Add tests to the suites - CU_add_test() 
+
+5)使用合适的接口来运行测试用例。Run tests using an appropriate interface, e.g. CU_console_run_tests
+
+6)调用函数CU_cleanup_registry清除测试注册单元(Test Registry)。Cleanup the test registry - CU_cleanup_registry()
+
+
+注：运行前执行 export LD_LIBRARY_PATH=/usr/local/lib。
+
+

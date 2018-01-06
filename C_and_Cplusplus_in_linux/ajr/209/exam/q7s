@@ -1,0 +1,58 @@
+
+int putc(int c, struct file *fp)
+{
+    int status = c;
+    if (fp->bytes_in_buf == sizeof fp->buf) {
+	if (write(fp->fd, fp->buf, fp->bytes_in_buf) != fp->bytes_in_buf) {
+	    fp->error = -1;
+	    status = -1;
+	}
+	fp->bytes_in_buf = 0;
+    }
+    buf[fp->bytes_in_buf++] = c;
+    return(status);
+}
+
+(or you could use BUFSIZ instead of sizeof fp->buf)
+(and of course you could instead specify the third argument to write() as
+"sizeof fp->buf" or BUFSIZ instead of fp->bytes_in_buf, except that that
+doesn't work in the similar code in part b)
+
+
+int fclose(struct file *fp)
+{
+    int status = fp->error;  /* assuming that any stdio function which sets
+                              * 'error' will set it to -1 */
+    if (fp->perms && fp->bytes_in_buf)
+	if (write(fp->fd, fp->buf, fp->bytes_in_buf) != fp->bytes_in_buf)
+	    status = -1;
+
+    if (close(fp))
+	status = -1;
+
+    free(fp);
+    return(status);
+}
+
+Note 1: It's not a rash assumption that any stdio function which sets 'error'
+will set it to -1 -- we are writing stdio; we could make this be the case.
+This should probably be added as a comment in the "struct file" declaration
+(on the exam paper).  This is a small point and it can be done multiple ways.
+I originally wrote
+	int status = (fp->error ? -1 : 0);
+
+Note 2: The replicated code in the above two solutions is slightly nasty.
+In real life, putc() and fclose() both instead call fflush(fp), which looks
+something like this:
+
+
+int fflush(struct file *fp)
+{
+    int bytes_in_buf = fp->bytes_in_buf;
+    fp->bytes_in_buf = 0;
+    if (fp->perms && bytes_in_buf)
+	if (write(fp->fd, fp->buf, bytes_in_buf) != bytes_in_buf)
+	    return((fp->error = -1));
+    return(0);
+}
+

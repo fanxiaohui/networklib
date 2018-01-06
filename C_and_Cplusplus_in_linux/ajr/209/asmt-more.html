@@ -1,0 +1,166 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>CSC 209 assignments: More to think about</title>
+</head>
+<body text="#000000" bgcolor="#ffcccc" link="#0000ff" alink="#ff0000" vlink="#55338b">
+
+<h1>More to think about</h1>
+
+Now that you've spent a bunch of time on the four assignments in this course,
+here are a few further things to implement as (optional) exercises.
+
+<p>
+(Also see a bunch of suggested problems on various topics in
+<a href="probs/">http://www.cdf.toronto.edu/~ajr/209/probs/</a>.)
+
+
+<h2> General </h2>
+
+Obviously, fix any bugs or write any unimplemented parts of your programs.
+
+<p>
+Implement any obvious variations which seem interesting.
+
+
+<h2> Assignment one </h2>
+
+<p>
+In addhost, sort the used IP addresses as a whole rather than considering each
+octet separately, 
+
+<p>
+Alternatively, find the first free slot in the case that the IP addresses are
+not contiguous (perhaps because of deleted hosts).
+For example, if IP addresses 192.168.1.1 and 192.168.1.3 exist (only), my and
+probably your addhost will use 192.168.1.4, but it could have used
+192.168.1.2.  (This would be important if we have a large amount of turnover
+and a smaller range of allowable IP addresses, so that reuse would be
+crucial.)
+
+<p>
+(The above two suggestions conflict, but are both potentially interesting
+problems to do, separately.)
+
+<p>
+("delhost", which removes a host from the database, is too trivial to be
+interesting.)
+
+<p>
+Make makedhcp and/or makedns better handle the case where a file in
+$HOME/hosts is unreadable, or where $HOME/hosts itself is unreadable.
+(Test this by doing "chmod 0" on the file or directory, and an appropriate
+chmod to make it normal again (e.g. chmod 755 for directories or 644 for plain
+files).)
+
+<p>
+Write "compacthosts" which renumbers the IP addresses of all hosts so that
+they are contiguous (starting from 192.168.1.1).
+
+
+<h2> Assignment two </h2>
+
+<p>
+Your table.c most likely terminates as soon as any of the input files are
+problematic.  Make it continue to process the rest of the input files after
+calling perror(), but nevertheless the error will cause it to return a
+non-zero
+exit status at the end, even if the last file is processed successfully.
+
+<p>
+In mytouch.c, if the file is of zero size the algorithm of reading and writing
+back a character is impossible, so there is a different strategy in which we
+write one character and then truncate it away.
+Produce a variant of mytouch.c in which this strategy is <i>always</i> used --
+we append a character to the end of the file (whatever size the file
+previously was), then ftruncate() the file to its original size.
+Which version of mytouch.c is better?
+
+<p>
+Make rls.c's output more like "ls -l" in some ways.
+Add some command-line options and use getopt().
+(And you can add -R for recursive, and then make it not be recursive by
+default.)
+
+<p>
+Use malloc() to avoid any <i>a priori</i> limit on path name length in
+rls.c, but make sure that you do not have a memory leak (any allocated
+memory should be freed, unless the program is about to exit).  Can you
+minimize the number of malloc() calls?  (Malloc() is very slow.)
+
+
+<h2> Assignment three </h2>
+
+<p>
+To avoid issues with partial read()s (of the kind we took such pains to deal
+with in assignment four), the message is always a fixed size.
+Use a terminator of some kind (\n will do) and write an appropriate loop such
+that a line of arbitrary size is correctly read.
+(Then increase the maximum line size from a paltry 80 characters to something
+larger like 1024.)
+
+<p>
+If the message never comes back around the ring, the master process will wait
+indefinitely for it, and it won't be possible to type in a new message to send
+on its way.
+Use select() between the 'frompipe' and stdin (in the master process only)
+so as to enable a new message to be typed in this case.
+To test your code, make the process proclist[1] discard every third message.
+
+<p>
+When you signal end-of-file, the shell prompt should follow all chatter, not
+be intermingled with it.
+If your assignment doesn't already get this right (test it with a larger
+number, like a few hundred, to be sure), then fix it.
+<br>
+Note: the correct solution to this is very simple -- just rearranging your code.
+No special tests or special cases or extra waits are required to make this
+work; it's just a question of getting everything in the right order.
+
+
+<h2> Assignment four </h2>
+
+<p>
+Add a command to the server which lists all objects and their locations.
+The client is unable to invoke this command; it is a debugging command for use
+in an "nc" session -- the responses from the server violate the
+protocol.
+(This one is intended to be the easiest, but perhaps it's too boring or seems
+too random; if so, please proceed to the next instead!)
+
+<p>
+Modify server.c to add stdin into its select() file descriptor set, so that
+commands can be typed on stdin.
+To keep it simple for now, the only command will be a blank line, which will
+list all of the connected clients (some basic information, such as the handle,
+IP address).
+(Or you could add a command which lists all objects and their locations, or
+add both commands.)
+
+<p>
+Add the ability for players to steal an object possessed by another player.
+The players must be in the same room as each other.
+The command in the client in English is "steal" and a player number, and this
+also is the command in the protocol (regardless of client language).
+(The command in French (for lang_fr.c) would be "voler".)
+<br>
+The server chooses an arbitrary one of the objects possessed by the target
+player and tells the client what they stole (e.g. it might say "stolen 3",
+which the client would report to the user as "You stole a crumpled piece of
+paper (#3)" ("Vous avez volé un papier chiffonné")).
+<br>
+If the player has no possessions, the server instead replies "ns", and the
+client tells the user something like "There is nothing to steal."
+("Il n'y a rien à voler.")
+<br>
+(The player stolen from is not notified in any case, but will see the absence
+of the object if they type "inv", or if they attempt to do something with the
+object (e.g. drop it).)
+
+<p>
+<hr noshade>
+[<a href=".">main course page</a>]
+</body>
+</html>
+

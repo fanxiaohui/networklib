@@ -1,0 +1,15 @@
+
+PATH=/bin:/usr/bin
+
+x=0
+while read y
+do
+    while test $y -gt 0
+    do
+	t=$x
+	x=$y
+	y=`expr $t % $y`
+    done
+done
+echo $x
+

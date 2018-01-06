@@ -1,0 +1,24 @@
+
+a)
+cat '&@$%*'
+
+b)
+who | grep 10:45 | sed 's/ .*//'
+
+c)
+if test $x -gt $y
+then
+    z=$x
+else
+    z=$y
+fi
+
+d)
+for i in 10 9 8 7 6
+do
+    mv q$i q`expr $i + 1`
+done
+
+e)
+cat *[13579] | tr -cs 0-9 \\012 | sort -n | tail -1
+
